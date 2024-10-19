@@ -1,6 +1,7 @@
 from setuptools import find_packages, setup
-
-package_name = 'drive_controller'
+import os
+from glob import glob
+package_name = 'dy_drive_controller'
 
 setup(
     name=package_name,
@@ -10,6 +11,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*')))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,7 +22,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'drive_controller = drive_controller.drive_controller:main'
+            'joy_republisher = dy_drive_controller.joy_republisher:main',
+            'drive_subscriber = dy_drive_controller.drive_subscriber:main'
         ],
-    },
+    },  
+    package_data={'dy_drive_controller':['constants.py']}
 )
